@@ -84,7 +84,7 @@ def get_productivity_smartboard(date: str, smartboards: list[Employee]) -> list:
                 'corpus': func.parse_name_smartboard(item['name'], 1),
                 'cabinet': func.parse_name_smartboard(item['name'], 2),
                 'name': 'Smart Board',
-                'date': datetime.strptime(date, '%Y%m%d').strftime('%d.%m.%d'),
+                'date': datetime.strptime(date, '%Y%m%d').strftime('%d.%m.%Y'),
                 'totalTime':  func.parse_time_smartboard(total_time),
                 'productiveTime': func.parse_time_smartboard(item['productiveTime']),
                 'unproductiveTime': func.parse_time_smartboard(item['unproductiveTime']),
