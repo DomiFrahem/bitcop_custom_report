@@ -2,7 +2,8 @@ import os
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, PlainTextResponse
+from fastapi.exceptions import RequestValidationError
 from fastapi.security.api_key import APIKey
 from starlette.status import HTTP_200_OK, HTTP_502_BAD_GATEWAY
 from fastapi.middleware.cors import CORSMiddleware
@@ -40,6 +41,9 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return PlainTextResponse(str(exc), status_code=400)
 
 @app.get("/employees")
 async def read_employees(api_key_header: APIKey = Depends(auth.get_api_key)) -> list[Employee]:
